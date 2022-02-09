@@ -2,8 +2,18 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, 'products/index.html')
+    context = {
+        'title': 'главная',
+    }
+    return render(request, 'products/index.html', context)
 
 
 def products(request):
-    return render(request, 'products/products.html')
+    import json
+    with open('products/fixtures/prod_list.json') as json_file:
+        prod_list = json.load(json_file)
+    context = {
+        'title': 'продукты',
+        'products': prod_list,
+    }
+    return render(request, 'products/products.html', context)
