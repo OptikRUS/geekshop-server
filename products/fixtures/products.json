@@ -29,7 +29,7 @@
     "fields": {
       "category": 1,
       "name": "Коричневый спортивный oversized-топ ASOS DESIGN",
-      "image": "",
+      "image": "products_images/Brown-sports-oversized-top-ASOS-DESIGN.png",
       "description": "Материал с плюшевой текстурой. Удобный и мягкий.",
       "price": "3390.00",
       "quantity": 10
@@ -41,7 +41,7 @@
     "fields": {
       "category": 2,
       "name": "Черные туфли на платформе с 3 парами люверсов Dr Martens 1461 Bex",
-      "image": "",
+      "image": "products_images/Black-Dr-Martens-shoes.png",
       "description": "Гладкий кожаный верх. Натуральный материал.",
       "price": "13590.00",
       "quantity": 10
@@ -53,7 +53,7 @@
     "fields": {
       "category": 1,
       "name": "Темно-синие широкие строгие брюки ASOS DESIGN",
-      "image": "",
+      "image": "products_images/Dark-blue-wide-leg-ASOs-DESIGN-trousers.png",
       "description": "Легкая эластичная ткань сирсакер Фактурная ткань.",
       "price": "2890.00",
       "quantity": 10
@@ -65,7 +65,7 @@
     "fields": {
       "category": 3,
       "name": "Черный рюкзак Nike Heritage",
-      "image": "",
+      "image": "products_images/Black-Nike-Heritage-backpack.png",
       "description": "Плотная ткань. Легкий материал.",
       "price": "2340.00",
       "quantity": 10
