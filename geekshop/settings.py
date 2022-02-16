@@ -114,6 +114,9 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+if USE_L10N:
+    USE_THOUSAND_SEPARATOR = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -132,5 +135,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-if USE_L10N:
-    USE_THOUSAND_SEPARATOR = True
+# Users
+AUTH_USER_MODEL = 'users.User'
