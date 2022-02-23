@@ -18,17 +18,11 @@ class Basket(models.Model):
 
     def total_quantity(self):
         baskets = Basket.objects.filter(user=self.user)
-        total_quantity = 0
-        for basket in baskets:
-            total_quantity += basket.quantity
-        return total_quantity
+        return sum(basket.quantity for basket in baskets)
 
     def total_sum(self):
         baskets = Basket.objects.filter(user=self.user)
-        total_sum = 0
-        for basket in baskets:
-            total_sum += basket.sum()
-        return total_sum
+        return sum(basket.sum() for basket in baskets)
 
     class Meta:
         verbose_name = 'Корзина'
