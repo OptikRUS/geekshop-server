@@ -42,7 +42,9 @@ class UserRegistrationForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'telegram_username', 'age')
 
     def clean_telegram_username(self):
-        return f'@{self.cleaned_data["telegram_username"]}'
+        if '@' not in self.cleaned_data['telegram_username']:
+            raise forms.ValidationError('Должен содержать "@"')
+        return self.cleaned_data['telegram_username']
 
     def clean_age(self):
         age = self.cleaned_data.get('age')
@@ -62,3 +64,8 @@ class UserProfileForm(UserChangeForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'image', 'username', 'email', 'telegram_username')
+
+    def clean_telegram_username(self):
+        if '@' not in self.cleaned_data['telegram_username']:
+            raise forms.ValidationError('Должен содержать "@"')
+        return self.cleaned_data['telegram_username']
