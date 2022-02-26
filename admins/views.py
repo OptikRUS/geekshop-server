@@ -41,7 +41,7 @@ def admin_users_update(request, pk):
         form = UserAdminProfileForm(instance=selected_user, data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
-            # messages.success(request, 'Поздравляем! Профиль изменён успешно.')
+            messages.success(request, 'Профиль пользователя успешно изменён!.')
             return HttpResponseRedirect(reverse('admin_staff:admin_users'))
     else:
         form = UserAdminProfileForm(instance=selected_user)
