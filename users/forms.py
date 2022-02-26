@@ -44,7 +44,9 @@ class UserRegistrationForm(UserCreationForm):
     def clean_telegram_username(self):
         telegram_username = self.cleaned_data.get('telegram_username')
         if telegram_username:
-            if telegram_username.startswith('@'):
+            if User.objects.filter(telegram_username=telegram_username).exists():
+                raise forms.ValidationError('Такой пользователь уже существует!')
+            elif telegram_username.startswith('@'):
                 return self.cleaned_data['telegram_username']
             else:
                 raise forms.ValidationError('Должен содержать "@"')
