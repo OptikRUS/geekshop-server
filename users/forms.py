@@ -65,10 +65,11 @@ class UserProfileForm(UserChangeForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'readonly': True}))
     email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control py-4', 'readonly': True}))
     telegram_username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}), required=False)
+    age = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Возраст'}))
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'image', 'username', 'email', 'telegram_username')
+        fields = ('first_name', 'last_name', 'image', 'username', 'email', 'telegram_username', 'age')
 
     def clean_telegram_username(self):
         telegram_username = self.cleaned_data.get('telegram_username')
