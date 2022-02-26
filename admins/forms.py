@@ -18,3 +18,5 @@ class UserAdminRegistrationForm(UserRegistrationForm):
 class UserAdminProfileForm(UserProfileForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
     email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control py-4'}))
+    age = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Возраст'}),
+                             required=False)
