@@ -75,6 +75,10 @@
                                 <label class="custom-file-label" for="{{ form.image.id_for_label }}">
                                     Выберите изображение
                                 </label>
+                                {% if user.image %}
+                                    <p>На данный момент: <a href="{{ user.image.url }}" style="color:red"
+                                                            target="_blank">{{ user.image }}</a></p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
