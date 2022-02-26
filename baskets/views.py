@@ -19,7 +19,8 @@ def basket_add(request, product_id):
         else:
             basket = baskets.first()
             basket.quantity += 1
-            basket.save()
+            if basket.quantity <= product.quantity:
+                basket.save()
         context = {
             'baskets': baskets,
             'products': products
@@ -41,7 +42,8 @@ def basket_edit(request, id, quantity):
         basket = Basket.objects.get(id=id)
         if quantity > 0:
             basket.quantity = quantity
-            basket.save()
+            if basket.quantity <= basket.product.quantity:
+                basket.save()
         else:
             basket.delete()
         baskets = Basket.objects.filter(user=request.user)
