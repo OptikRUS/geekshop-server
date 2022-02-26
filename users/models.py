@@ -8,6 +8,9 @@ class User(AbstractUser):
     telegram_username = models.CharField('ник телеграм', max_length=64, null=True, blank=True)
     age = models.PositiveIntegerField('возраст', null=True)
 
+    def __str__(self):
+        return self.username
+
     def safe_delete(self):
         self.is_active = False
         self.save()
