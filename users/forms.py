@@ -52,7 +52,7 @@ class UserRegistrationForm(UserCreationForm):
     def clean_age(self):
         age = self.cleaned_data.get('age')
         if age and age < 18:
-            raise forms.ValidationError('Вы слишком молоды!')
+            raise forms.ValidationError('Только 18+!')
         return age
 
 
