@@ -1,0 +1,95 @@
+{% extends 'admins/base.html' %}
+
+{% block content %}
+    <main>
+        {% if messages %}
+            <div class="
+            alert alert-dismissible fade show
+            {% if messages %} alert-success {% else %} alert-warning {% endif %}" role="alert"
+                 style="margin-top: 50px;">
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% else %}
+                    {{ form.non_field_errors }}
+                {% endif %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        <div class="container-fluid">
+            <h1 class="mt-4">Пользователи</h1>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>
+                    Пользователи
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Имя пользователя</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Адрес эл. почты</th>
+                                <th>Ник Telegram</th>
+                                <th>Персонал сайта</th>
+                                <th>Активный</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th>Имя пользователя</th>
+                                <th>Имя</th>
+                                <th>Фамилия</th>
+                                <th>Адрес эл. почты</th>
+                                <th>Ник Telegram</th>
+                                <th>Персонал сайта</th>
+                                <th>Активный</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'admin_staff:admin_users_update' user.pk %}"
+                                           style="color: dodgerblue">
+                                            {{ user.username }}
+                                        </a>
+                                    </td>
+                                    <td>{{ user.first_name }}</td>
+                                    <td>{{ user.last_name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.telegram_username }}</td>
+                                    <td class="text-center">
+                                        {% if user.is_staff %}
+                                            <i class="fas fa-check-circle" style="color: #007bff"></i>
+                                        {% else %}
+                                            <i class="fas fa-times-circle" style="color: darkred"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if user.is_active %}
+                                            <i class="fas fa-check-circle" style="color: #28a745"></i>
+                                        {% else %}
+                                            <i class="fas fa-times-circle" style="color: darkred"></i>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'admin_staff:admin_users_create' %}">
+                        <button class="btn btn-success">Создать пользователя</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

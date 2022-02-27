@@ -14,15 +14,15 @@ class ProductCategory(models.Model):
 
 
 class Product(models.Model):
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
-    name = models.CharField('название товара', max_length=256, unique=True)
+    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, verbose_name='категория')
+    name = models.CharField('наименование товара', max_length=256, unique=True)
     image = models.ImageField('изображение товара', upload_to='products_images', blank=True, null=True)
     description = models.CharField('описание', max_length=256)
-    price = models.DecimalField('цена', max_digits=8, decimal_places=2, default=0)
+    price = models.DecimalField('цена за штуку', max_digits=8, decimal_places=2, default=0)
     quantity = models.PositiveIntegerField('количество на складе', default=0)
 
     def __str__(self):
-        return f'Продукт {self.name} | Категория: {self.category.name}'
+        return self.name
 
     class Meta:
         verbose_name = 'продукт'
