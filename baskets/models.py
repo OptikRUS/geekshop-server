@@ -10,6 +10,10 @@ class Basket(models.Model):
     quantity = models.PositiveIntegerField('количество', default=0)
     created_timestamp = models.DateTimeField('время заказа', auto_now_add=True)
 
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+
     def __str__(self):
         return f'Корзина пользователя {self.user.username} | Продукт {self.product.name}'
 
