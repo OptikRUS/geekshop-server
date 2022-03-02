@@ -1,12 +1,27 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import user_passes_test
+from django.utils.decorators import method_decorator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from users.models import User
 from admins.forms import UserAdminRegistrationForm, UserAdminProfileForm
+
+
+class CommonMixin(SuccessMessageMixin):
+    title = None
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.title
+        return context
+
+    @method_decorator(user_passes_test(lambda user: user.is_staff))
+    def dispatch(self, request, *args, **kwargs):
+        return super(CommonMixin, self).dispatch(request, *args, **kwargs)
 
 
 @user_passes_test(lambda user: user.is_staff)
@@ -15,29 +30,35 @@ def index(request):
     return render(request, 'admins/index.html', context)
 
 
-class AdminUserListView(ListView):
+class AdminUserListView(CommonMixin, ListView):
     model = User
     template_name = 'admins/admin-users-read.html'
+    title = 'Админка/Пользователи'
 
 
-class AdminUserCreateView(CreateView):
+class AdminUserCreateView(CommonMixin, CreateView):
     model = User
     template_name = 'admins/admin-users-create.html'
     form_class = UserAdminRegistrationForm
     success_url = reverse_lazy('admin_staff:admin_users')
+    title = 'Админка/Создание пользователя'
+    success_message = 'Пользователь успешно создан!'
 
 
-class AdminUserUpdateView(UpdateView):
+class AdminUserUpdateView(CommonMixin, UpdateView):
     model = User
     form_class = UserAdminProfileForm
     template_name = 'admins/admin-users-update-delete.html'
     success_url = reverse_lazy('admin_staff:admin_users')
+    title = 'Админка/Редактирование пользователя'
+    success_message = 'Профиль пользователя успешно изменён!'
 
 
-class AdminUserDeleteView(DeleteView):
+class AdminUserDeleteView(CommonMixin, DeleteView):
     model = User
     template_name = 'admins/admin-users-update-delete.html'
     success_url = reverse_lazy('admin_staff:admin_users')
+    title = 'Админка/Редактирование пользователя'
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
