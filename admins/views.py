@@ -97,6 +97,11 @@ class AdminCategoryDeleteView(CommonMixin, DeleteView):
     success_url = reverse_lazy('admin_staff:admin_categories')
     title = 'Админка/Редактирование пользователя'
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.safe_delete()
+        return HttpResponseRedirect(self.success_url)
+
 # @user_passes_test(lambda user: user.is_staff)
 # def admin_users(request):
 #     users = User.objects.all()
