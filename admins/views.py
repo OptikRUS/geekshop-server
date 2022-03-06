@@ -1,6 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
-from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
@@ -8,7 +7,9 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from users.models import User
-from admins.forms import UserAdminRegistrationForm, UserAdminProfileForm
+from products.models import ProductCategory
+from admins.forms import UserAdminRegistrationForm, UserAdminProfileForm, CategoryAdminRegistrationForm, \
+    CategoryAdminEditForm
 
 
 class CommonMixin(SuccessMessageMixin):
@@ -64,6 +65,37 @@ class AdminUserDeleteView(CommonMixin, DeleteView):
         self.object = self.get_object()
         self.object.safe_delete()
         return HttpResponseRedirect(self.success_url)
+
+
+class AdminCategoryListView(CommonMixin, ListView):
+    model = ProductCategory
+    template_name = 'admins/admin-categories-read.html'
+    title = 'Админка/Категории'
+
+
+class AdminCategoryCreateView(CommonMixin, CreateView):
+    model = ProductCategory
+    template_name = 'admins/admin-category-create.html'
+    form_class = CategoryAdminRegistrationForm
+    success_url = reverse_lazy('admin_staff:admin_categories')
+    title = 'Админка/Создание категории'
+    success_message = 'Категория успешно создана!'
+
+
+class AdminCategoryUpdateView(CommonMixin, UpdateView):
+    model = ProductCategory
+    form_class = CategoryAdminEditForm
+    template_name = 'admins/admin-category-update-delete.html'
+    success_url = reverse_lazy('admin_staff:admin_categories')
+    title = 'Админка/Редактирование категории'
+    success_message = 'Категория успешно изменёна!'
+
+
+class AdminCategoryDeleteView(CommonMixin, DeleteView):
+    model = ProductCategory
+    template_name = 'admins/admin-users-update-delete.html'
+    success_url = reverse_lazy('admin_staff:admin_categories')
+    title = 'Админка/Редактирование пользователя'
 
 # @user_passes_test(lambda user: user.is_staff)
 # def admin_users(request):

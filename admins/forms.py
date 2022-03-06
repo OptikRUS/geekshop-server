@@ -1,7 +1,9 @@
 from django import forms
+from django.forms import ModelForm
 
 from users.forms import UserRegistrationForm, UserProfileForm
 from users.models import User
+from products.models import ProductCategory
 
 
 class UserAdminRegistrationForm(UserRegistrationForm):
@@ -20,3 +22,23 @@ class UserAdminProfileForm(UserProfileForm):
     email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control py-4'}))
     age = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Возраст'}),
                              required=False)
+
+
+class CategoryAdminRegistrationForm(ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Название категории'}))
+    description = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Описание'}))
+
+    class Meta:
+        model = ProductCategory
+        fields = ('name', 'description')
+
+
+class CategoryAdminEditForm(ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
+    description = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
+
+    class Meta:
+        model = ProductCategory
+        fields = ('name', 'description')
