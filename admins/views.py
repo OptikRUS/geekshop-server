@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
@@ -7,9 +7,9 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from users.models import User
-from products.models import ProductCategory
+from products.models import ProductCategory, Product
 from admins.forms import UserAdminRegistrationForm, UserAdminProfileForm, CategoryAdminRegistrationForm, \
-    CategoryAdminEditForm
+    CategoryAdminEditForm, ProductAdminRegistrationForm, ProductAdminEditForm
 
 
 class CommonMixin(SuccessMessageMixin):
@@ -96,6 +96,42 @@ class AdminCategoryDeleteView(CommonMixin, DeleteView):
     template_name = 'admins/admin-users-update-delete.html'
     success_url = reverse_lazy('admin_staff:admin_categories')
     title = 'Админка/Редактирование пользователя'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.safe_delete()
+        return HttpResponseRedirect(self.success_url)
+
+
+class AdminProductListView(CommonMixin, ListView):
+    model = Product
+    template_name = 'admins/admin-products-list.html'
+    title = 'Админка/Продукты'
+
+
+class AdminProductCreateView(CommonMixin, CreateView):
+    model = Product
+    template_name = 'admins/admin-product-create.html'
+    form_class = ProductAdminRegistrationForm
+    success_url = reverse_lazy('admin_staff:admin_products')
+    title = 'Админка/Создание товара'
+    success_message = 'Товар успешно создан!'
+
+
+class AdminProductUpdateView(CommonMixin, UpdateView):
+    model = Product
+    form_class = ProductAdminEditForm
+    template_name = 'admins/admin-product-update-delete.html'
+    success_url = reverse_lazy('admin_staff:admin_products')
+    title = 'Админка/Редактирование товара'
+    success_message = 'Товар успешно изменён!'
+
+
+class AdminProductDeleteView(CommonMixin, DeleteView):
+    model = Product
+    template_name = 'admins/admin-product-update-delete.html'
+    success_url = reverse_lazy('admin_staff:admin_products')
+    title = 'Админка/Редактирование товара'
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

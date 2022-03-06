@@ -3,7 +3,7 @@ from django.forms import ModelForm
 
 from users.forms import UserRegistrationForm, UserProfileForm
 from users.models import User
-from products.models import ProductCategory
+from products.models import ProductCategory, Product
 
 
 class UserAdminRegistrationForm(UserRegistrationForm):
@@ -42,3 +42,35 @@ class CategoryAdminEditForm(ModelForm):
     class Meta:
         model = ProductCategory
         fields = ('name', 'description')
+
+
+class ProductAdminRegistrationForm(ModelForm):
+    name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Наименование товара'}))
+    description = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Описание'}))
+    category = forms.ModelChoiceField(queryset=ProductCategory.objects.all(), empty_label='Выберите категорию')
+    price = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Цена'}),
+                             required=False)
+    quantity = forms.IntegerField(
+        widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Количество'}), required=False)
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
+
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'category', 'price', 'quantity', 'image')
+
+
+class ProductAdminEditForm(ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
+    description = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
+    category = forms.ModelChoiceField(queryset=ProductCategory.objects.all(), empty_label='Выберите категорию')
+    price = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Цена'}),
+                             required=False)
+    quantity = forms.IntegerField(
+        widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Количество'}), required=False)
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
+
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'category', 'price', 'quantity', 'image')

@@ -25,10 +25,15 @@ class Product(models.Model):
     description = models.CharField('описание', max_length=256)
     price = models.DecimalField('цена за штуку', max_digits=8, decimal_places=2, default=0)
     quantity = models.PositiveIntegerField('количество на складе', default=0)
-
-    def __str__(self):
-        return self.name
+    is_active = models.BooleanField('активность', default=True)
 
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+
+    def __str__(self):
+        return self.name
+
+    def safe_delete(self):
+        self.is_active = False
+        self.save()
