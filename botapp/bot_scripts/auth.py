@@ -1,5 +1,8 @@
 from aiogram import types
+
 from asgiref.sync import sync_to_async
+
+from botapp.keyboards.keyboard import kb_profile, kb_register
 
 from users.models import User
 
@@ -11,8 +14,12 @@ def get_user(tg_username):
 
 async def login_command(message: types.Message):
     tg_username = message.from_user.username
-    user = await get_user('@' + tg_username)
-    await message.answer(f'Привет {user.first_name, user.telegram_username}, вы зарегистрированный пользователь!')
+    try:
+        user = await get_user('@' + tg_username)
+    except:
+        await message.answer(f'Вы незарегистрированный пользователь', reply_markup=kb_register)
+    else:
+        await message.answer(f'Привет {user.first_name}, вы зарегистрированный пользователь!', reply_markup=kb_profile)
 
 
 def auth_handlers(dp):
@@ -20,7 +27,6 @@ def auth_handlers(dp):
     передаём сюда готовые контроллеры
     """
     dp.register_message_handler(login_command, commands=['login'])
-    # dp.register_message_handler(about_command, commands=['register'])
 
 # def get_user(tg_username):
 #     @sync_to_async

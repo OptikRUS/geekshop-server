@@ -7,12 +7,16 @@ request_location - поделиться геолокаацией
 """
 
 button_login = KeyboardButton('/login')
+button_register = KeyboardButton('/register')
 button_help = KeyboardButton('/help')
-# button_id = KeyboardButton('/id')
-# button_date = KeyboardButton('/date')
-button_get_number = KeyboardButton('Поделиться номером', request_contact=True)
-button_get_locate = KeyboardButton('Отправить где я', request_location=True)
-# button_cancel = KeyboardButton("/cancel")
+button_profile = KeyboardButton('/profile')
+button_edit_profile = KeyboardButton('/edit_profile')
+button_register_profile = KeyboardButton('/register_profile')
+# button_get_number = KeyboardButton('Поделиться номером', request_contact=True)
+# button_get_locate = KeyboardButton('Отправить где я', request_location=True)
+button_cancel = KeyboardButton("/cancel")
+button_cancel_registration = KeyboardButton("/cancel_registration")
+button_test = KeyboardButton("/test")
 
 """
 изменяем вид кнопок:
@@ -22,10 +26,13 @@ one_time_keyboard - спрятать клавиатуру после выбор�
 kb_client - регистрируем набор кнопок
 """
 
-# kb_client = ReplyKeyboardMarkup(resize_keyboard=True)
-# kb_cancel = ReplyKeyboardMarkup(resize_keyboard=True)
 kb_start = ReplyKeyboardMarkup(resize_keyboard=True)
-
+kb_profile = ReplyKeyboardMarkup(resize_keyboard=True)
+kb_edit_profile = ReplyKeyboardMarkup(resize_keyboard=True)
+kb_register = ReplyKeyboardMarkup(resize_keyboard=True)
+kb_cancel = ReplyKeyboardMarkup(resize_keyboard=True)
+kb_register_profile = ReplyKeyboardMarkup(resize_keyboard=True)
+kb_register_cancel = ReplyKeyboardMarkup(resize_keyboard=True)
 
 """
 настраиваем расположение конопок:
@@ -34,7 +41,11 @@ kb_start = ReplyKeyboardMarkup(resize_keyboard=True)
     row(b1, b2, b3) - добавляет кнопки в одну строку 
 """
 
-# kb_client.add(button_help).add(button_date).add(button_id).row(button_get_number, button_get_locate)
-# kb_cancel.add(button_cancel)
+kb_start.add(button_login).insert(button_register).add(button_help)
+kb_profile.add(button_profile)
+kb_register.add(button_register)
+kb_edit_profile.add(button_edit_profile)
+kb_register_profile.add(button_register_profile)
 
-kb_start.add(button_login).insert(button_help)
+kb_cancel.add(button_cancel)
+kb_register_cancel.add(button_cancel_registration)
