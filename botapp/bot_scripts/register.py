@@ -96,8 +96,10 @@ async def add_age(message: types.Message, state=FSMContext):
         except:
             await message.answer('Некорректные данные', reply_markup=kb_register_cancel)
         else:
-            await register_user(data['username'], data['first_name'], data['last_name'], data['email'],
-                                data['password'], data['age'], '@' + message.from_user.username, message.from_user.id)
+            await register_user(
+                username=data['username'], first_name=data['first_name'], last_name=data['last_name'],
+                email=data['email'], password=data['password'], age=data['age'],
+                telegram_username='@' + message.from_user.username, telegram_id=message.from_user.id)
             await message.answer(
                 f"Вы успешно зарегистрированы!\n"
                 f"Логин: {data['username']}\n"
