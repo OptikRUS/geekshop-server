@@ -3,10 +3,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 
-from asgiref.sync import sync_to_async
-
 from botapp.keyboards.keyboard import kb_profile, kb_edit_profile, kb_cancel, kb_register
-from botapp.bot_scripts.auth import get_user
+from botapp.views import get_user, edit_profile
 
 
 class AddUserInfo(StatesGroup):
@@ -15,52 +13,48 @@ class AddUserInfo(StatesGroup):
     age = State()
 
 
-@sync_to_async
-def edit_profile(user, first_name, last_name, age):
-    user.first_name = first_name
-    user.last_name = last_name
-    user.age = age
-    return user.save()
-
-
 async def profile_command(message: types.Message):
     try:
-        user = await get_user('@' + message.from_user.username)
+        user = await get_user(message.from_user.id)
     except:
-        await message.answer('Вы не зарегистрированы', reply_markup=kb_register)
+        await message.answer('Вы не зарегистрированы!', reply_markup=kb_register)
     else:
         if user.is_active:
             await message.answer(
-                f'Вот ваш профиль GeekShop:'
+                f'<u>Вот ваш профиль GeekShop:</u>'
                 f'\nЛогин: {user.username}'
                 f'\nИмя: {user.first_name}'
                 f'\nФамилия: {user.last_name}'
                 f'\nТелеграм: {user.telegram_username}'
                 f'\nEmail: {user.email}'
                 f'\nВозраст: {user.age}'
-                f'\nБыл в сети GeekShop: {user.last_login}', reply_markup=kb_edit_profile
-            )
+                f'\nБыл в сети GeekShop: {user.last_login}', reply_markup=kb_edit_profile, parse_mode="HTML")
         else:
             await message.answer(f'Ваш профиль неактивен. Обратитесь к администратору: @OptikRUS')
 
 
 async def edit_profile_command(message: types.Message):
-    await AddUserInfo.first_name.set()
-    await message.answer('Введи имя: ', reply_markup=kb_cancel)
+    try:
+        user = await get_user(message.from_user.id)
+    except:
+        await message.answer('Вы не зарегистрированы', reply_markup=kb_register)
+    else:
+        await AddUserInfo.first_name.set()
+        await message.answer('Введи имя: ', reply_markup=kb_cancel)
 
 
 async def add_first_name(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
         data['first_name'] = message.text
     await AddUserInfo.next()
-    await message.answer('Теперь фамилию', reply_markup=kb_cancel)
+    await message.answer('Теперь фамилию:', reply_markup=kb_cancel)
 
 
 async def add_last_name(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
         data['last_name'] = message.text
     await AddUserInfo.next()
-    await message.answer('Введите возраст', reply_markup=kb_cancel)
+    await message.answer('Введите возраст:', reply_markup=kb_cancel)
 
 
 async def add_age(message: types.Message, state=FSMContext):
@@ -70,14 +64,20 @@ async def add_age(message: types.Message, state=FSMContext):
         except:
             await message.answer('Некорректные данные', reply_markup=kb_cancel)
         else:
-            user = await get_user('@' + message.from_user.username)
-            await edit_profile(user, data['first_name'], data['last_name'], data['age'])
+            user = await get_user(message.from_user.id)
+            try:
+                tg_username = message.from_user.username
+            except:
+                tg_username = ''
+            await edit_profile(user=user, first_name=data['first_name'], last_name=data['last_name'],
+                               age=data['age'], telegram_username=tg_username)
             await message.answer(
-                f"Профиль успешно изменён!\n"
+                f"<u>Профиль успешно изменён!</u>\n"
                 f"Имя: {data['first_name']}\n"
                 f"Фамилия: {data['last_name']}\n"
-                f"Возраст: {data['age']}\n", reply_markup=kb_profile
-            )
+                f"Телеграм: @{tg_username}\n"
+                f"Telegram_ID: {message.from_user.id}\n"
+                f"Возраст: {data['age']}\n", reply_markup=kb_profile, parse_mode="HTML")
             await state.finish()
 
 

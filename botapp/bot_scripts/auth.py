@@ -1,25 +1,17 @@
 from aiogram import types
 
-from asgiref.sync import sync_to_async
-
 from botapp.keyboards.keyboard import kb_profile, kb_register
-
-from users.models import User
-
-
-@sync_to_async
-def get_user(tg_username):
-    return User.objects.get(telegram_username=tg_username)
+from botapp.views import get_user
 
 
 async def login_command(message: types.Message):
-    tg_username = message.from_user.username
     try:
-        user = await get_user('@' + tg_username)
+        user = await get_user(message.from_user.id)
     except:
-        await message.answer(f'Вы незарегистрированный пользователь', reply_markup=kb_register)
+        await message.answer(f'Вы незарегистрированный пользователь!', reply_markup=kb_register)
     else:
-        await message.answer(f'Привет {user.first_name}, вы зарегистрированный пользователь!', reply_markup=kb_profile)
+        await message.answer(f'Привет <b>{user.first_name}</b>, вы зарегистрированный пользователь!',
+                             reply_markup=kb_profile, parse_mode="HTML")
 
 
 def auth_handlers(dp):
