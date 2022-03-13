@@ -12,7 +12,7 @@ async def menu_command(message: types.Message):
 
 
 async def help_command(message: types.Message):
-    await message.answer("Этот бот используется искоючительно в целях обучения. По всем вопросам @OptikRUS",
+    await message.answer("Этот бот используется исключительно в целях обучения. По всем вопросам @OptikRUS",
                          reply_markup=kb_menu)
 
 

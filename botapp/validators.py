@@ -10,7 +10,6 @@ def email_valid(email):
 
 def password_valid(password):
     pattern = r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$"
-    # pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$"
     if re.match(pattern, password) is not None:
         return True
     return False

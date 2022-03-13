@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 
-from botapp.keyboards.keyboard import kb_profile, kb_edit_profile, kb_cancel, kb_register
+from botapp.keyboards.keyboard import kb_profile, kb_edit_profile, kb_cancel, kb_login
 from botapp.views import get_user, edit_profile
 
 
@@ -17,7 +17,7 @@ async def profile_command(message: types.Message):
     try:
         user = await get_user(message.from_user.id)
     except:
-        await message.answer('Вы не зарегистрированы!', reply_markup=kb_register)
+        await message.answer('Вы не авторизированы! Войти через телеграм?', reply_markup=kb_login)
     else:
         if user.is_active:
             await message.answer(
@@ -26,6 +26,7 @@ async def profile_command(message: types.Message):
                 f'\nИмя: {user.first_name}'
                 f'\nФамилия: {user.last_name}'
                 f'\nТелеграм: {user.telegram_username}'
+                f'\nТелеграм_ID: {user.telegram_id}'
                 f'\nEmail: {user.email}'
                 f'\nВозраст: {user.age}'
                 f'\nБыл в сети GeekShop: {user.last_login}', reply_markup=kb_edit_profile, parse_mode="HTML")
@@ -35,9 +36,9 @@ async def profile_command(message: types.Message):
 
 async def edit_profile_command(message: types.Message):
     try:
-        user = await get_user(message.from_user.id)
+        await get_user(message.from_user.id)
     except:
-        await message.answer('Вы не зарегистрированы', reply_markup=kb_register)
+        await message.answer('Вы не авторизованы! Войти через телеграм?', reply_markup=kb_login)
     else:
         await AddUserInfo.first_name.set()
         await message.answer('Введи имя: ', reply_markup=kb_cancel)
