@@ -13,7 +13,6 @@ class AddUserInfo(StatesGroup):
     first_name = State()
     last_name = State()
     age = State()
-    photo = State()
 
 
 @sync_to_async
@@ -38,7 +37,6 @@ async def profile_command(message: types.Message):
                 f'\nФамилия: {user.last_name}'
                 f'\nТелеграм: {user.telegram_username}'
                 f'\nEmail: {user.email}'
-                f'\nФото профиля: {user.image}'
                 f'\nВозраст: {user.age}'
                 f'\nБыл в сети GeekShop: {user.last_login}', reply_markup=kb_edit_profile
             )
@@ -48,21 +46,21 @@ async def profile_command(message: types.Message):
 
 async def edit_profile_command(message: types.Message):
     await AddUserInfo.first_name.set()
-    await message.reply('Введи имя: ', reply_markup=kb_cancel)
+    await message.answer('Введи имя: ', reply_markup=kb_cancel)
 
 
 async def add_first_name(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
         data['first_name'] = message.text
     await AddUserInfo.next()
-    await message.reply('Теперь фамилию', reply_markup=kb_cancel)
+    await message.answer('Теперь фамилию', reply_markup=kb_cancel)
 
 
 async def add_last_name(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
         data['last_name'] = message.text
     await AddUserInfo.next()
-    await message.reply('Введите возраст', reply_markup=kb_cancel)
+    await message.answer('Введите возраст', reply_markup=kb_cancel)
 
 
 async def add_age(message: types.Message, state=FSMContext):
