@@ -29,7 +29,8 @@ async def profile_command(message: types.Message):
                 f'\nТелеграм_ID: {user.telegram_id}'
                 f'\nEmail: {user.email}'
                 f'\nВозраст: {user.age}'
-                f'\nБыл в сети GeekShop: {user.last_login}', reply_markup=kb_edit_profile, parse_mode="HTML")
+                f'\nБыл в сети GeekShop: {user.last_login}'
+                f'\nДата регистрации: {user.date_joined}', reply_markup=kb_edit_profile, parse_mode="HTML")
         else:
             await message.answer(f'Ваш профиль неактивен. Обратитесь к администратору: @OptikRUS')
 
