@@ -4,8 +4,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 
 from botapp.keyboards.keyboard import kb_profile, kb_register, kb_register_cancel
-from botapp.views import get_user, exist_user, register_user, get_user_by_telegram, edit_user_telegram_id
-from botapp.validators import email_valid, password_valid, login_valid
+from botapp.bot_scripts.users.views import get_user, exist_user, register_user, get_user_by_telegram, edit_user_telegram_id
+from botapp.bot_scripts.users.validators import email_valid, password_valid, login_valid
 
 
 class RegisterUser(StatesGroup):
@@ -25,7 +25,7 @@ async def register_profile_command(message: types.Message):
             user = await get_user_by_telegram(message.from_user.username)
         except:
             await RegisterUser.username.set()
-            await message.reply('Придумайте логин: ', reply_markup=kb_register_cancel)
+            await message.answer('Придумайте логин: ', reply_markup=kb_register_cancel)
         else:
             await edit_user_telegram_id(user, message.from_user.id)
             await message.answer(f'<b>{user.first_name}</b>, вы авторизованы через телеграм!',

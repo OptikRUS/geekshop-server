@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 
 from botapp.keyboards.keyboard import kb_profile, kb_edit_profile, kb_cancel, kb_login
-from botapp.views import get_user, edit_profile
+from botapp.bot_scripts.users.views import get_user, edit_profile
 
 
 class AddUserInfo(StatesGroup):

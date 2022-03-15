@@ -1,9 +1,7 @@
 from aiogram import types
 
-from asgiref.sync import sync_to_async
-
 from botapp.keyboards.keyboard import kb_profile, kb_register
-from botapp.views import get_user, get_user_by_telegram, edit_user_telegram_id
+from botapp.bot_scripts.users.views import get_user, get_user_by_telegram, edit_user_telegram_id
 
 
 async def login_command(message: types.Message):
