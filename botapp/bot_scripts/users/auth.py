@@ -1,4 +1,5 @@
 from aiogram import types
+from aiogram.dispatcher.filters import Text
 
 from botapp.keyboards.keyboard import kb_profile, kb_register
 from botapp.bot_scripts.users.views import get_user, get_user_by_telegram, edit_user_telegram_id
@@ -26,4 +27,4 @@ def auth_handlers(dp):
     """
     передаём сюда готовые контроллеры
     """
-    dp.register_message_handler(login_command, commands=['login'])
+    dp.register_message_handler(login_command, Text(equals='Войти✅'))

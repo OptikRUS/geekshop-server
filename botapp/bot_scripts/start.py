@@ -1,4 +1,5 @@
 from aiogram import types
+from aiogram.dispatcher.filters import Text
 from botapp.bot_info import dp, bot
 from botapp.keyboards.keyboard import kb_start, kb_menu
 
@@ -20,6 +21,7 @@ def start_handler(dp):
     """
     передаём сюда готовые контроллеры
     """
-    dp.register_message_handler(start_command, commands=['start', 'main'])
-    dp.register_message_handler(menu_command, commands=['menu'])
-    dp.register_message_handler(help_command, commands=['help'])
+    dp.register_message_handler(start_command, commands=['start'])
+    dp.register_message_handler(start_command, Text(equals='Главное меню📎'))
+    dp.register_message_handler(menu_command, Text(equals='Меню🧷'))
+    dp.register_message_handler(help_command, Text(equals='Помощь💡'))

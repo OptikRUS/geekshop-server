@@ -120,20 +120,14 @@ async def register_cancel_handler(message: types.Message, state=FSMContext):
     await message.answer('Изменения отменены', reply_markup=kb_register)
 
 
-async def test_command(message: types.Message):
-    await message.answer("тест")
-
-
 def register_handler(dp):
-    dp.register_message_handler(register_profile_command, commands=['register'], state=None)
+    dp.register_message_handler(register_profile_command, Text(equals='Регистрация🔑'), state=None)
     # # хендлер отмены должен быть тут, чтобы корректно работать
-    dp.register_message_handler(register_cancel_handler, state='*', commands=['cancel_registration'])
-    dp.register_message_handler(register_cancel_handler, Text(equals='cancel_registration', ignore_case=True),
-                                state='*')
+    # dp.register_message_handler(register_cancel_handler, state='*', commands=['cancel_registration'])
+    dp.register_message_handler(register_cancel_handler, Text(equals='Отмена🚫', ignore_case=True), state='*')
     dp.register_message_handler(add_username, state=RegisterUser.username)
     dp.register_message_handler(add_first_name, state=RegisterUser.first_name)
     dp.register_message_handler(add_last_name, state=RegisterUser.last_name)
     dp.register_message_handler(add_email, state=RegisterUser.email)
     dp.register_message_handler(add_password, state=RegisterUser.password)
     dp.register_message_handler(add_age, state=RegisterUser.age)
-    dp.register_message_handler(test_command, state='*', commands=['test'])

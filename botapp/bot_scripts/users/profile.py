@@ -95,11 +95,11 @@ def profile_handler(dp):
     """
     передаём сюда готовые контроллеры
     """
-    dp.register_message_handler(profile_command, commands=['profile'])
-    dp.register_message_handler(edit_profile_command, commands=['edit_profile'], state=None)
+    dp.register_message_handler(profile_command, Text(equals='Профиль👤'))
+    dp.register_message_handler(edit_profile_command, Text(equals='Редактировать👤'), state=None)
     # хендлер отмены должен быть тут, чтобы корректно работать
-    dp.register_message_handler(cancel_handler, state='*', commands='cancel')
-    dp.register_message_handler(cancel_handler, Text(equals='cancel', ignore_case=True), state='*')
+    # dp.register_message_handler(cancel_handler, state='*', commands='cancel')
+    dp.register_message_handler(cancel_handler, Text(equals='Отмена⛔️', ignore_case=True), state='*')
     dp.register_message_handler(add_first_name, state=AddUserInfo.first_name)
     dp.register_message_handler(add_last_name, state=AddUserInfo.last_name)
     dp.register_message_handler(add_age, state=AddUserInfo.age)

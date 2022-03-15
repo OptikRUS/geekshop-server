@@ -7,27 +7,26 @@ request_location - поделиться геолокаацией
 """
 
 # buttons
-button_menu = KeyboardButton('/menu')
-button_main = KeyboardButton('/main')
-button_login = KeyboardButton('/login')
-button_register = KeyboardButton('/register')
-button_help = KeyboardButton('/help')
-button_profile = KeyboardButton('/profile')
-button_edit_profile = KeyboardButton('/edit_profile')
+button_menu = KeyboardButton('Меню🧷')
+button_main = KeyboardButton('Главное меню📎')
+button_login = KeyboardButton('Войти✅')
+button_register = KeyboardButton('Регистрация🔑')
+button_help = KeyboardButton('Помощь💡')
+button_profile = KeyboardButton('Профиль👤')
+button_edit_profile = KeyboardButton('Редактировать👤')
 # button_get_number = KeyboardButton('Поделиться номером', request_contact=True)
 # button_get_locate = KeyboardButton('Отправить где я', request_location=True)
-button_cancel = KeyboardButton("/cancel")
-button_cancel_registration = KeyboardButton("/cancel_registration")
-button_test = KeyboardButton("/test")
+button_cancel = KeyboardButton("Отмена⛔️")
+button_cancel_registration = KeyboardButton("Отмена🚫")
 
 # games
-button_games = KeyboardButton('/games')
+button_games = KeyboardButton('Игры🎮')
 
 # hangman buttons
-button_hangman = KeyboardButton('/hangman')
-button_play_hangman = KeyboardButton('/play_hangman')
-button_cancel_hangman = KeyboardButton('/cancel_hangman')
-button_help_hangman = KeyboardButton('/help_hangman')
+button_hangman = KeyboardButton('Виселица🪜')
+button_play_hangman = KeyboardButton('Играть🪜')
+button_help_hangman = KeyboardButton('Правила🪜')
+button_cancel_hangman = KeyboardButton('Выйти из игры ❌')
 """
 изменяем вид кнопок:
 resize_keyboard - уменньшить размер кнопок 
@@ -63,7 +62,7 @@ kb_cancel_hangman = ReplyKeyboardMarkup(resize_keyboard=True)
 
 # main
 kb_start.add(button_login).add(button_help).insert(button_menu)
-kb_menu.add(button_help).insert(button_main).add(button_games)
+kb_menu.add(button_games).insert(button_main)
 
 # auth
 kb_login.add(button_login).insert(button_main)

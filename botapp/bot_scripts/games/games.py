@@ -1,5 +1,6 @@
 from aiogram import types
 from botapp.keyboards.keyboard import kb_games
+from aiogram.dispatcher.filters import Text
 
 
 async def games_command(message: types.Message):
@@ -7,4 +8,4 @@ async def games_command(message: types.Message):
 
 
 def games_handler(dp):
-    dp.register_message_handler(games_command, commands=['games'])
+    dp.register_message_handler(games_command, Text(equals='Игры🎮'))
