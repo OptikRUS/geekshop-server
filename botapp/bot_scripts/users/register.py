@@ -4,8 +4,8 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 
 from botapp.keyboards.keyboard import kb_profile, kb_register, kb_register_cancel
-from botapp.bot_scripts.users.views import get_user, exist_user, register_user, get_user_by_telegram, edit_user_telegram_id
-from botapp.bot_scripts.users.validators import email_valid, password_valid, login_valid
+from .views import get_user, exist_user, register_user, get_user_by_telegram, edit_user_telegram_id
+from .validators import email_valid, password_valid, login_valid
 
 
 class RegisterUser(StatesGroup):
@@ -31,7 +31,7 @@ async def register_profile_command(message: types.Message):
             await message.answer(f'<b>{user.first_name}</b>, вы авторизованы через телеграм!',
                                  reply_markup=kb_profile, parse_mode="HTML")
     else:
-        await message.answer('Вы зарегистрированный пользователь', reply_markup=kb_profile)
+        await message.answer('Вы зарегистрированный пользователь!', reply_markup=kb_profile)
 
 
 async def add_username(message: types.Message, state=FSMContext):
@@ -123,7 +123,6 @@ async def register_cancel_handler(message: types.Message, state=FSMContext):
 def register_handler(dp):
     dp.register_message_handler(register_profile_command, Text(equals='Регистрация🔑'), state=None)
     # # хендлер отмены должен быть тут, чтобы корректно работать
-    # dp.register_message_handler(register_cancel_handler, state='*', commands=['cancel_registration'])
     dp.register_message_handler(register_cancel_handler, Text(equals='Отмена🚫', ignore_case=True), state='*')
     dp.register_message_handler(add_username, state=RegisterUser.username)
     dp.register_message_handler(add_first_name, state=RegisterUser.first_name)

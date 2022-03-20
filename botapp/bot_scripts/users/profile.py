@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 
 from botapp.keyboards.keyboard import kb_profile, kb_edit_profile, kb_cancel, kb_login
-from botapp.bot_scripts.users.views import get_user, edit_profile
+from .views import get_user, edit_profile
 
 
 class AddUserInfo(StatesGroup):
@@ -21,7 +21,7 @@ async def profile_command(message: types.Message):
     else:
         if user.is_active:
             await message.answer(
-                f'<u>Вот ваш профиль GeekShop:</u>'
+                f'<u>Ваш профиль GeekShop:</u>'
                 f'\nЛогин: {user.username}'
                 f'\nИмя: {user.first_name}'
                 f'\nФамилия: {user.last_name}'
@@ -98,7 +98,6 @@ def profile_handler(dp):
     dp.register_message_handler(profile_command, Text(equals='Профиль👤'))
     dp.register_message_handler(edit_profile_command, Text(equals='Редактировать👤'), state=None)
     # хендлер отмены должен быть тут, чтобы корректно работать
-    # dp.register_message_handler(cancel_handler, state='*', commands='cancel')
     dp.register_message_handler(cancel_handler, Text(equals='Отмена⛔️', ignore_case=True), state='*')
     dp.register_message_handler(add_first_name, state=AddUserInfo.first_name)
     dp.register_message_handler(add_last_name, state=AddUserInfo.last_name)

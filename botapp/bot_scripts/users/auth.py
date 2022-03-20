@@ -2,7 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters import Text
 
 from botapp.keyboards.keyboard import kb_profile, kb_register
-from botapp.bot_scripts.users.views import get_user, get_user_by_telegram, edit_user_telegram_id
+from .views import get_user, get_user_by_telegram, edit_user_telegram_id
 
 
 async def login_command(message: types.Message):

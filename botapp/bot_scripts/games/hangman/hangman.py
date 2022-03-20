@@ -5,9 +5,9 @@ from aiogram.dispatcher.filters import Text
 
 from faker import Faker
 
-from botapp.bot_scripts.games.hangman.elements.const import HANGMAN, rules, LOCK_SYMBOL
+from .elements.const import HANGMAN, rules, LOCK_SYMBOL
 from botapp.keyboards.keyboard import kb_hangman, kb_cancel_hangman
-from botapp.bot_scripts.games.hangman.elements.tools import get_show_word, letter_valid
+from .elements.tools import get_show_word, letter_valid
 
 
 class HangMan(StatesGroup):
@@ -68,7 +68,10 @@ async def game_procces_command(message: types.Message, state=FSMContext):
 
 async def hangman_cancel_handler(message: types.Message, state=FSMContext):
     async with state.proxy() as data:
-        await message.answer(f'Вы вышли из игры!\nЗагаданное слово:\n{data["word"]}', reply_markup=kb_hangman)
+        try:
+            await message.answer(f'Вы вышли из игры!\nЗагаданное слово:\n{data["word"]}', reply_markup=kb_hangman)
+        except:
+            print('Ошибка кнопки')
     current_state = await state.get_state()
     if current_state is None:
         return
@@ -80,6 +83,5 @@ def hangman_handler(dp):
     dp.register_message_handler(help_hangman_command, Text(equals='Правила🪜'), state=None)
     dp.register_message_handler(start_hangman_command, Text(equals='Играть🪜'), state=None)
     # # хендлер отмены должен быть тут, чтобы корректно работать
-    # dp.register_message_handler(hangman_cancel_handler, state='*', commands='cancel_hangman')
     dp.register_message_handler(hangman_cancel_handler, Text(equals='Выйти из игры ❌', ignore_case=True), state='*')
     dp.register_message_handler(game_procces_command, state=HangMan.state)

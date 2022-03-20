@@ -63,7 +63,10 @@
                                 <label class="small mb-1" for="{{ form.telegram_username.id_for_label }}">
                                     Telegram
                                 </label>
-                                {{ form.telegram_username }}
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text">@</span>
+                                    {{ form.telegram_username }}
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6" align="center">
