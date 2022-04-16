@@ -1,5 +1,6 @@
 import os
 import django
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "geekshop.settings")
 django.setup()
 
@@ -14,6 +15,7 @@ from bot_scripts.games import games
 async def on_statup(_):
     print('Бот онлайн')
 
+
 """регистрируем здесь наши контроллеры"""
 
 start.start_handler(dp)
@@ -22,7 +24,6 @@ profile.profile_handler(dp)
 register.register_handler(dp)
 games.games_handler(dp)
 hangman.hangman_handler(dp)
-
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True, on_startup=on_statup)
