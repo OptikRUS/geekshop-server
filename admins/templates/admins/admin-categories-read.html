@@ -20,59 +20,41 @@
             </div>
         {% endif %}
         <div class="container-fluid">
-            <h1 class="mt-4">Пользователи</h1>
+            <h1 class="mt-4">Категории</h1>
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table mr-1"></i>
-                    Пользователи
+                    Категории продуктов
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                             <tr>
-                                <th>Имя пользователя</th>
-                                <th>Имя</th>
-                                <th>Фамилия</th>
-                                <th>Адрес эл. почты</th>
-                                <th>Ник Telegram</th>
-                                <th>Персонал сайта</th>
-                                <th>Активный</th>
+                                <th>Название категории</th>
+                                <th>Описание</th>
+                                <th>Активность</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Имя пользователя</th>
-                                <th>Имя</th>
-                                <th>Фамилия</th>
-                                <th>Адрес эл. почты</th>
-                                <th>Ник Telegram</th>
-                                <th>Персонал сайта</th>
-                                <th>Активный</th>
+                                <th>Название категории</th>
+                                <th>Описание</th>
+                                <th>Активность</th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            {% for user in object_list %}
+                            {% for category in object_list %}
                                 <tr>
                                     <td>
-                                        <a href="{% url 'admin_staff:admin_users_update' user.pk %}"
+                                        <a href="{% url 'admin_staff:admin_category_update' category.pk %}"
                                            style="color: dodgerblue">
-                                            {{ user.username }}
+                                            {{ category.name }}
                                         </a>
                                     </td>
-                                    <td>{{ user.first_name }}</td>
-                                    <td>{{ user.last_name }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.telegram_username }}</td>
+                                    <td>{{ category.description }}</td>
                                     <td class="text-center">
-                                        {% if user.is_staff %}
-                                            <i class="fas fa-check-circle" style="color: #007bff"></i>
-                                        {% else %}
-                                            <i class="fas fa-times-circle" style="color: darkred"></i>
-                                        {% endif %}
-                                    </td>
-                                    <td class="text-center">
-                                        {% if user.is_active %}
+                                        {% if category.is_active %}
                                             <i class="fas fa-check-circle" style="color: #28a745"></i>
                                         {% else %}
                                             <i class="fas fa-times-circle" style="color: darkred"></i>
@@ -85,8 +67,8 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <a href="{% url 'admin_staff:admin_users_create' %}">
-                        <button class="btn btn-success">Создать пользователя</button>
+                    <a href="{% url 'admin_staff:admin_category_create' %}">
+                        <button class="btn btn-success">Создать категорию</button>
                     </a>
                 </div>
             </div>
