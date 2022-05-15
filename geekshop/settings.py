@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'baskets',
     'admins',
+    'botapp',
 ]
 
 MIDDLEWARE = [

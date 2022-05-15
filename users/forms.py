@@ -44,12 +44,9 @@ class UserRegistrationForm(UserCreationForm):
     def clean_telegram_username(self):
         telegram_username = self.cleaned_data.get('telegram_username')
         if telegram_username:
-            if User.objects.filter(telegram_username=telegram_username).exists():
-                raise forms.ValidationError('Такой пользователь уже существует!')
-            elif telegram_username.startswith('@'):
-                return self.cleaned_data['telegram_username']
-            else:
-                raise forms.ValidationError('Должен содержать "@"')
+            if telegram_username.startswith('@'):
+                raise forms.ValidationError('Без "@"')
+        return self.cleaned_data['telegram_username']
 
     def clean_age(self):
         age = self.cleaned_data.get('age')
@@ -75,6 +72,5 @@ class UserProfileForm(UserChangeForm):
         telegram_username = self.cleaned_data.get('telegram_username')
         if telegram_username:
             if telegram_username.startswith('@'):
-                return self.cleaned_data['telegram_username']
-            else:
-                raise forms.ValidationError('Должен содержать "@"')
+                raise forms.ValidationError('Без "@"')
+        return self.cleaned_data['telegram_username']
